@@ -1,0 +1,126 @@
+/* Navbar, from the live site's CSS (nav._12q75i51 and children).
+   u = scale unit (see index.css). Values per breakpoint as measured. */
+.navbar {
+  --nav-pad: calc(6 * var(--u));
+  --nav-btn: calc(12 * var(--u));
+  --nav-logo: calc(7 * var(--u));
+  --nav-gap: calc(2.5 * var(--u));
+  --menu-bar-w: calc(5 * var(--u));
+  --menu-bar-h: round(calc(1 * var(--u)), 0.5px);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  width: 100vw;
+  box-sizing: border-box;
+  padding: var(--nav-pad);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+  color: #fff;
+}
+@media (min-width: 768px) {
+  .navbar {
+    --nav-pad: calc(10 * var(--u));
+    --nav-logo: calc(9 * var(--u));
+    --nav-gap: calc(4 * var(--u));
+    --menu-bar-w: calc(7 * var(--u));
+    --menu-bar-h: round(calc(1.5 * var(--u)), 0.5px);
+  }
+}
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .navbar { --nav-pad: calc(7 * var(--u)); }
+}
+
+/* Optional dark shade behind the bar (live: ._12q75i58::after). The live VI
+   page defines it but never turns it on (checked at load, every scroll depth,
+   on phones and with the menu open), so it is off by default. */
+.navbar--shade::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  height: 125%;
+  display: flex;
+  pointer-events: none;
+  background: radial-gradient(115% 160% at 50% -50%, rgb(17 17 23 / 0.8) 35%, rgb(17 17 23 / 0.65) 50%, rgb(0 0 0 / 0) 90%);
+}
+
+.navbar__home,
+.navbar__menu {
+  pointer-events: auto;
+  width: var(--nav-btn);
+  height: var(--nav-btn);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1000px;
+  color: #fff;
+  outline: calc(1 * var(--u)) solid transparent;
+  transition: color 0.2s ease-in-out, outline-color 0.2s ease-in-out;
+}
+.navbar__home:focus-visible,
+.navbar__menu:focus-visible {
+  color: #fff9cb;
+  outline-color: #fff;
+}
+@media (min-width: 768px) {
+  .navbar__home:hover,
+  .navbar__menu:hover { color: #fff9cb; }
+  .navbar__home:active,
+  .navbar__menu:active { color: #ebe5b7; }
+}
+
+.navbar__monogram {
+  display: block;
+  width: var(--nav-logo);
+  height: auto;
+  overflow: visible;
+}
+
+.navbar__right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--nav-gap);
+}
+
+.navbar__pill-wrap {
+  pointer-events: auto;
+  display: flex;
+}
+.navbar__pill-wrap[data-visible='false'] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* small pill (live: ._1092chnf): min 24u x 10u, padding 0 5u, text 3.5u */
+.navbar__pill {
+  min-width: calc(24 * var(--u));
+  min-height: calc(10 * var(--u));
+  padding: 0 calc(5 * var(--u));
+  gap: calc(1.5 * var(--u));
+  font-size: calc(3.5 * var(--u));
+  color: #0c0d1b;
+  background: var(--color-pink);
+}
+
+.navbar__menu {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  flex-direction: column;
+  gap: var(--menu-bar-h);
+}
+.navbar__bar {
+  display: block;
+  width: var(--menu-bar-w);
+  height: var(--menu-bar-h);
+  background: currentColor;
+}

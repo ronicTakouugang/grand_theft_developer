@@ -1,0 +1,25 @@
+/* Live: ._1ph7wmg0 { position: fixed; bottom: 0; width: 100vw; z-index: 90 }
+         svg._1smfa212 sized from d = max(5vw, 10vh) */
+.scroll-hint {
+  --hint-d: max(5vw, 10vh);
+  --hint-h: calc(var(--hint-d) * 0.45);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 90;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+.scroll-hint__icon {
+  display: block;
+  height: var(--hint-h);
+  width: min(var(--hint-h), 2.1rem);
+  color: var(--color-pink);
+  filter: drop-shadow(0 0 calc(var(--hint-d) * 0.025) #ffb0c480) drop-shadow(0 0 calc(var(--hint-d) * 0.1) #000);
+}
+@media (max-width: 767.98px) and (orientation: landscape) {
+  .scroll-hint__icon { display: none; }
+}

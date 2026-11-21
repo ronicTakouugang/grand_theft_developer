@@ -1,111 +1,109 @@
+@import 'tailwindcss';
+
+/* Our fonts stand in for the live site's ArtDeco family:
+   ArtDeco Regular/Medium/Bold 400–700 -> Outfit (variable)
+   ArtDeco Condensed Bold/Heavy 700/900 -> Barlow Condensed 700/900 */
+@font-face {
+  font-family: 'Outfit';
+  src: url('./assets/fonts/outfit-variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('./assets/fonts/barlow-condensed-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('./assets/fonts/barlow-condensed-900.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  /* page base, measured on the live site (body + fixed backdrop): #0c0d1b */
+  --color-page: #0c0d1b;
+  --color-ink: #ffffff;
+  --color-lilac: #ccc2f5;
+  --color-pink: #ffb2c6;
+
+  --font-sans: 'Outfit', system-ui, sans-serif;
+  --font-condensed: 'Barlow Condensed', 'Outfit', sans-serif;
+}
+
+/* ---------------------------------------------------------------------------
+   Scale unit. Every size on the live site is a multiple of
+     u = min(1vw, 25.6px) / x0
+   with x0 stepping by width (and aspect). Breakpoints copied from the live CSS. */
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --x0: 1;
+  --u: calc(min(1vw, 25.6px) / var(--x0));
+  /* page gutter (live: grid container padding) */
+  --gutter: 7.5vw;
+}
+@media (min-width: 768px) and (max-width: 1023.98px) { :root { --x0: 3; } }
+@media (min-width: 1024px) and (max-width: 1439.98px) { :root { --x0: 3.5; } }
+@media (min-width: 1440px) { :root { --x0: 4; } }
+@media (min-aspect-ratio: 2.25 / 1) { :root { --x0: 4.5; } }
+@media (max-width: 767.98px) and (orientation: landscape) { :root { --x0: 2; } }
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+@media (max-width: 767.98px) and (orientation: landscape) { :root { --gutter: 15vw; } }
+@media (min-width: 1024px) { :root { --gutter: 10vw; } }
+@media (min-width: 1440px) { :root { --gutter: 13vw; } }
+@media (min-width: 1920px) { :root { --gutter: calc(64 * var(--u)); } }
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-page text-ink font-sans antialiased;
+    margin: 0;
+  }
+  h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+/* Fixed page backdrop (live: ._1637kzg5). Mouse devices: flat base colour
+   (the cursor glow sits on top, added with the motion pass). Touch devices:
+   a vertical gradient and no glow. Measured on the live site. */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -4;
+  pointer-events: none;
+  background: var(--color-page);
+}
+@media (pointer: coarse) {
+  .backdrop {
+    background: linear-gradient(189deg, #1f1f38 0.55%, #18182d 30.38%, #111222 65.19%, #0c0d1b 100%);
   }
 }
 
-body {
-  margin: 0;
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
+/* Pill buttons share one shape (live: ._1092chn1) */
+.pill {
   display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+  flex-direction: row;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-radius: 1000px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  outline: calc(1 * var(--u)) solid transparent;
+  outline-offset: 4px;
 }
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+.pill:focus-visible {
+  outline-color: #fff;
 }
