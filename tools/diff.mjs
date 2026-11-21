@@ -14,8 +14,8 @@ const styled = opt('styled', null)
 // items whose width is content-driven (our copy differs from the live copy)
 const noWidth = new Set(opt('nowidth', []))
 const geomKeys = opt('geom', ['x', 'y', 'w', 'h'])
-const A = JSON.parse(readFileSync(aFile, 'utf8'))
-const B = JSON.parse(readFileSync(bFile, 'utf8'))
+const A = JSON.parse(readFileSync(aFile, 'utf8').replace(/^\uFEFF/, ''))
+const B = JSON.parse(readFileSync(bFile, 'utf8').replace(/^\uFEFF/, ''))
 
 const near = (a, b) => Math.abs(a - b) <= Math.max(1, Math.abs(a) * 0.01)
 const pxNear = (a, b) => {

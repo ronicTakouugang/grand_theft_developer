@@ -1,7 +1,7 @@
 // Pretty-print a measure JSON: node tools/print.mjs .measure/<name>.json [itemFilterRegex]
 import { readFileSync } from 'node:fs'
 const [file, filt] = process.argv.slice(2)
-const d = JSON.parse(readFileSync(file, 'utf8'))
+const d = JSON.parse(readFileSync(file, 'utf8').replace(/^\uFEFF/, ''))
 const re = filt ? new RegExp(filt) : null
 for (const [vp, v] of Object.entries(d)) {
   console.log(`\n## ${vp} unit=${v.vars.unitPx} bg=${v.vars.bodyBg}`)

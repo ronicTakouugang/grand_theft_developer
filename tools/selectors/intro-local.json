@@ -1,0 +1,12 @@
+﻿{
+  "loader": "#loader",
+  "loaderLogo": "#loader .loader__logo",
+  "stack": ".hero__stack",
+  "button": ".hero__button",
+  "tagline": ".hero__tagline--side",
+  "nav": ".navbar",
+  "posterArt": ".hero__layer--art",
+  "posterLogo": ".hero__layer--logo",
+  "scrollHint": ".scroll-hint__icon",
+  "overlay": ".backdrop-overlay"
+}

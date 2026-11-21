@@ -15,7 +15,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 const args = process.argv.slice(2)
 const live = args.includes('--live')
 const [url, selFile, outName, vpArg] = args.filter((a) => !a.startsWith('--'))
-const selectors = JSON.parse(readFileSync(selFile, 'utf8'))
+const selectors = JSON.parse(readFileSync(selFile, 'utf8').replace(/^\uFEFF/, ''))
 const DEFAULT_VPS = '375x812,768x1024,1024x768,1440x900,1920x1080,2560x1440,812x375'
 const viewports = (vpArg || DEFAULT_VPS).split(',').map((s) => s.split('x').map(Number))
 
@@ -75,7 +75,16 @@ for (const [w, h] of viewports) {
       }, null, { timeout: 30000, polling: 100 })
       .catch(() => console.warn(`[${w}x${h}] poster never settled`))
   } else {
-    await page.waitForTimeout(800)
+    // our site: wait for the loader + intro to finish (loader removed, scroll
+    // unlocked, poster pictures fully faded in)
+    await page
+      .waitForFunction(() => {
+        const art = document.querySelector('.hero__layer--art')
+        return !document.getElementById('loader') && document.documentElement.style.overflow === '' &&
+          (!art || getComputedStyle(art).opacity === '1')
+      }, null, { timeout: 30000, polling: 100 })
+      .catch(() => console.warn(`[${w}x${h}] intro never finished`))
+    await page.waitForTimeout(300)
   }
 
   const data = await page.evaluate(

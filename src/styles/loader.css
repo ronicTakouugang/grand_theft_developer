@@ -1,0 +1,91 @@
+/* Loading screen, from the live site's loader (._2qmne33–36 and keyframes
+   _2qmne30–32). The markup lives in index.html so it paints on the first
+   frame, before any script runs. Our loader logo replaces the live mark:
+   same 24u height, width from the wordmark's 1425:867 ratio. */
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 501;
+  width: 100dvw;
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(189deg, #1f1f38 0.55%, #18182d 30.38%, #111222 65.19%, #0c0d1b 100%);
+  pointer-events: auto;
+}
+
+.loader__logo {
+  --logo-h: calc(24 * var(--u));
+  --logo-w: calc(var(--logo-h) * 1425 / 867);
+  --loop: 2.15s;
+  position: relative;
+}
+
+/* silhouette behind, glowing and pulsing */
+.loader__silhouette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  background: url('../assets/brand/loader-logo.svg') 50% 50% / cover no-repeat;
+  filter: drop-shadow(0 0 calc(1 * var(--u)) #38365d);
+  animation: loader-silhouette var(--loop) cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite both;
+}
+
+/* the wordmark itself: a masked fill that pulses, with a shine sweeping across */
+.loader__fill {
+  position: relative;
+  z-index: 501;
+  width: var(--logo-w);
+  height: var(--logo-h);
+  background: #1f1f38;
+  -webkit-mask: url('../assets/brand/loader-logo.svg') 0 0 / cover repeat;
+  mask: url('../assets/brand/loader-logo.svg') 0 0 / cover repeat;
+  animation: loader-fill var(--loop) cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite both;
+}
+.loader__fill::after {
+  content: '';
+  position: absolute;
+  top: -40%;
+  left: -40%;
+  z-index: -1;
+  width: 25%;
+  height: 60%;
+  background: linear-gradient(232deg, #ffb2c6 20%, #988bd0 70%);
+  filter: blur(5px);
+  transform: skew(-45deg, 45deg);
+  animation: loader-shine var(--loop) cubic-bezier(0.77, 0, 0.175, 1) infinite both;
+}
+
+@keyframes loader-shine {
+  0% { top: -40%; left: -40%; }
+  92% { top: 80%; left: 105%; }
+  100% { top: 80%; left: 105%; }
+}
+@keyframes loader-fill {
+  0% { background: #1f1f38; }
+  22% { background: #1f1f38; }
+  42% { background: #38365d; }
+  92% { background: #1f1f38; }
+  100% { background: #1f1f38; }
+}
+@keyframes loader-silhouette {
+  0% { opacity: 0.2; }
+  22% { opacity: 0.2; }
+  42% { opacity: 1; }
+  92% { opacity: 0.2; }
+  100% { opacity: 0.2; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader__silhouette,
+  .loader__fill,
+  .loader__fill::after {
+    animation: none;
+  }
+  .loader__silhouette { opacity: 0.6; }
+}

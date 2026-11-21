@@ -61,6 +61,8 @@ export default function Hero() {
           </div>
 
           <div className="hero__poster" role="img" aria-label={hero.posterLabel}>
+            {/* intro: the pieces fly in here, then the pictures below fade in on top */}
+            <canvas className="hero__canvas" aria-hidden="true" />
             <PosterLayer desktop={posterDesktop} mobile={posterMobile} className="hero__layer--art" />
             <PosterLayer desktop={posterLogoDesktop} mobile={posterLogoMobile} className="hero__layer--logo" />
           </div>

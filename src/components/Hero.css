@@ -40,6 +40,7 @@
   flex-direction: column;
   align-items: center;
   gap: calc(8 * var(--u));
+  isolation: isolate;
 }
 @media (max-width: 767.98px) {
   .hero__stack { gap: calc(6 * var(--u)); }
@@ -63,6 +64,22 @@
 @media (min-aspect-ratio: 2.25 / 1), (max-width: 767.98px) and (min-aspect-ratio: 2 / 1) {
   .hero__poster { aspect-ratio: 64 / 27; }
 }
+/* intro canvas (live: ._191jtbm4): 100vw x 150svh, centred on the poster */
+.hero__canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  display: block;
+  width: 100vw;
+  height: 150svh;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__canvas { display: none; }
+}
+
 .hero__layer {
   position: absolute;
   inset: 0;

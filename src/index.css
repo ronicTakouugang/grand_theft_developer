@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './styles/loader.css';
 
 /* Our fonts stand in for the live site's ArtDeco family:
    ArtDeco Regular/Medium/Bold 400–700 -> Outfit (variable)
@@ -79,6 +80,15 @@
   z-index: -4;
   pointer-events: none;
   background: var(--color-page);
+}
+/* Overlay above the backdrop (live: ._1637kzg6). The intro starts it at
+   #0c0d1b and fades it to transparent, revealing the backdrop. */
+.backdrop-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-color: transparent;
 }
 @media (pointer: coarse) {
   .backdrop {
